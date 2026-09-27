@@ -1,0 +1,25 @@
+{
+  "feature_columns": [
+    "account_age_steps",
+    "historical_mean_amount",
+    "historical_std_amount",
+    "historical_txn_count",
+    "historical_max_amount",
+    "days_since_last_transaction",
+    "hour_of_day",
+    "current_amount",
+    "amount_vs_historical_mean_ratio",
+    "amount_vs_historical_max_ratio",
+    "is_new_counterparty",
+    "balance_before",
+    "balance_after",
+    "balance_drop_ratio",
+    "balance_is_zero_after",
+    "type_matches_history",
+    "is_dormant_account",
+    "type_encoded",
+    "errorBalanceOrig",
+    "errorBalanceDest",
+    "is_transfer"
+  ]
+}

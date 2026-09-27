@@ -1,0 +1,99 @@
+# ==============================================================================
+# TemporalShield — Git Ignore Rules
+# ==============================================================================
+
+# --- Byte-compiled / optimized / DLL files ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Python Virtual Environments ---
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+bin/
+include/
+lib/
+lib64/
+
+# --- Jupyter Notebooks Checkpoints ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+*.nbc
+*.trash
+
+# --- Large Raw Datasets (Do NOT push >100MB files to GitHub) ---
+# PaySim 6.36M rows raw dataset (~500 MB)
+paysim.csv
+PS_*.csv
+*.parquet
+*.feather
+*.h5
+
+# Keep seed demo datasets tracked in repository
+!data/access_logs.csv
+!data/synthetic_transactions.csv
+
+# --- Heavy Temporary Archives & Scratch ---
+*.zip
+*.tar.gz
+*.rar
+*.7z
+scratch/
+tmp/
+temp/
+*.tmp
+
+# --- Logs, Telemetry & Profiling ---
+*.log
+logs/
+.system_generated/
+wandb/
+runs/
+lightning_logs/
+
+# --- IDE & Editor Settings ---
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# --- OS-generated files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# --- Model Artifacts Safety & Cache ---
+# Keep committed final production model weights in models/
+!models/isolation_forest/*.pkl
+!models/isolation_forest/*.json
+!models/autoencoder/*.pt
+!models/autoencoder/*.pkl
+!models/autoencoder/*.json
+!models/lstm/*.pt
+!models/lstm/*.pkl
+!models/lstm/*.json
+!models/xgboost/*.pkl
+!models/xgboost/*.json
+!models/ensemble/*.json
+
+# Ignore temporary checkpoints and training checkpoints outside models/
+checkpoints/
+*.checkpoint
+checkpoint-*/
+
+# Mock frontend files (local prototyping only)
+mockFrontend/

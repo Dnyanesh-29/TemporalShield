@@ -1,0 +1,16 @@
+{
+  "feature_columns": [
+    "amount_normalised",
+    "time_since_last_minutes",
+    "is_below_threshold",
+    "is_struct_band",
+    "is_transfer",
+    "is_fast",
+    "roll_fast_3",
+    "roll_struct_band_3",
+    "cumulative_amount_window",
+    "amount_homogeneity",
+    "velocity_count",
+    "balance_change_ratio"
+  ]
+}
