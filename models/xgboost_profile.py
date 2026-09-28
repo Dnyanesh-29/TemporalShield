@@ -65,7 +65,10 @@ class ProfileMismatchDetector:
             self.scaler = joblib.load(scaler_path)
 
         if os.path.exists(model_path):
-            self.model = joblib.load(model_path)
+            try:
+                self.model = joblib.load(model_path)
+            except Exception:
+                self.model = None
 
         if os.path.exists(shap_path):
             try:
