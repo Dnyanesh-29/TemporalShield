@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #0D0D0D;
+  --color-brand-accent: #C0392B;
+  --color-brand-surface: #1A1A1A;
+  --color-brand-border: #333333;
+}
+
+body {
+  @apply bg-[var(--color-brand-bg)] text-white;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+@layer utilities {
+  .clip-hexagon {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+}
