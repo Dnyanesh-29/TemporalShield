@@ -51,9 +51,15 @@ from api.evidence_builder import EvidenceBuilderService
 # Global service instances
 temporal_graph = TemporalGraph()
 risk_aggregator = RiskAggregator()
-stream_producer = StreamProducer(use_kafka=False, speed_multiplier=500.0)
+
+# Kafka configuration (auto-detects Docker container on localhost:9092)
+USE_KAFKA = os.getenv("USE_KAFKA", "true").lower() in ("true", "1", "yes")
+KAFKA_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+
+stream_producer = StreamProducer(use_kafka=USE_KAFKA, bootstrap_servers=KAFKA_SERVERS, speed_multiplier=500.0)
 stream_consumer = StreamConsumer(
-    use_kafka=False,
+    use_kafka=USE_KAFKA,
+    bootstrap_servers=KAFKA_SERVERS,
     temporal_graph=temporal_graph,
     risk_aggregator=risk_aggregator
 )

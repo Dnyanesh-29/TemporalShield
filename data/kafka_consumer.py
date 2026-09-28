@@ -99,7 +99,30 @@ class StreamConsumer:
 
         self._stop_event = threading.Event()
         self._consumer_thread: Optional[threading.Thread] = None
+        self.kafka_consumer = None
         self.is_running = False
+        self._init_kafka_consumer()
+
+    def _init_kafka_consumer(self):
+        if not self.use_kafka:
+            return
+        try:
+            from kafka import KafkaConsumer
+            self.kafka_consumer = KafkaConsumer(
+                TOPIC_ACCESS,
+                TOPIC_TRANSACTIONS,
+                bootstrap_servers=self.bootstrap_servers,
+                auto_offset_reset="latest",
+                enable_auto_commit=True,
+                group_id=f"temporalshield-consumer-{int(time.time())}",
+                value_deserializer=lambda m: json.loads(m.decode("utf-8")),
+                consumer_timeout_ms=200
+            )
+            logger.info(f"Subscribed to Kafka topics at {self.bootstrap_servers}: {[TOPIC_ACCESS, TOPIC_TRANSACTIONS]}")
+        except Exception as e:
+            logger.warning(f"Could not connect Kafka consumer ({e}). Operating in in-memory queue mode.")
+            self.use_kafka = False
+            self.kafka_consumer = None
 
     def process_access_event(self, event: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """
@@ -227,7 +250,23 @@ class StreamConsumer:
         while not self._stop_event.is_set():
             processed_any = False
 
-            # Drain pending access events
+            # 1. Read from Kafka if enabled
+            if self.use_kafka and self.kafka_consumer:
+                try:
+                    records = self.kafka_consumer.poll(timeout_ms=100, max_records=50)
+                    for tp, messages in records.items():
+                        for msg in messages:
+                            if self._stop_event.is_set():
+                                break
+                            if msg.topic == TOPIC_ACCESS:
+                                self.process_access_event(msg.value)
+                            elif msg.topic == TOPIC_TRANSACTIONS:
+                                self.process_transaction_event(msg.value)
+                            processed_any = True
+                except Exception as e:
+                    logger.debug(f"Kafka consumer poll: {e}")
+
+            # 2. Drain pending access events from in-memory queue
             while not acc_q.empty() and not self._stop_event.is_set():
                 try:
                     event = acc_q.get_nowait()
@@ -237,7 +276,7 @@ class StreamConsumer:
                 except Exception as e:
                     logger.error(f"Error processing access event: {e}")
 
-            # Drain pending transaction events
+            # 3. Drain pending transaction events from in-memory queue
             while not txn_q.empty() and not self._stop_event.is_set():
                 try:
                     event = txn_q.get_nowait()
@@ -267,6 +306,11 @@ class StreamConsumer:
         self._stop_event.set()
         if self._consumer_thread and self._consumer_thread.is_alive():
             self._consumer_thread.join(timeout=1.0)
+        if self.kafka_consumer:
+            try:
+                self.kafka_consumer.close()
+            except Exception:
+                pass
         self.is_running = False
         self.stats["status"] = "IDLE"
 
