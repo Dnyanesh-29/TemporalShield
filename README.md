@@ -79,62 +79,54 @@ TemporalShield monitors the joint temporal manifold of access events and transac
 
 ## 🧠 System Architecture
 
-```
-                       Live Event Ingestion / Replay Stream
-           ┌───────────────────────────────────────────────────┐
-           │ access_logs.csv (63k+)   synthetic_txns.csv (7k+) │
-           └─────────┬─────────────────────────┬───────────────┘
-                     ▼                         ▼
-           ┌──────────────────┐       ┌──────────────────┐
-           │ Topic: access    │       │ Topic: txns      │
-           └─────────┬────────┘       └────────┬─────────┘
-                     └────────────┬────────────┘
-                                  ▼
-                    ┌───────────────────────────┐
-                    │ Streaming Consumer Loop   │
-                    │ (Kafka / In-Memory Queue) │
-                    └─────────────┬─────────────┘
-                                  ▼
-           ┌─────────────────────────────────────────────┐
-           │ Incremental Temporal Graph (NetworkX)       │
-           │ • Dynamic Time Decay: w = exp(-λ·Δt)        │
-           │ • 4-Minute Bi-Directional Cross-Check       │
-           └──────────────────────┬──────────────────────┘
-                                  │
-    ┌─────────────────────────────┼─────────────────────────────┐
-    ▼                             ▼                             ▼
-┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│ Isolation Forest │     │ Role Autoencoder │     │ LSTM + Attention │
-│ 4-Min Link Window│     │ Privilege Abuse  │     │ Smurfing Burst   │
-└────────┬─────────┘     └────────┬─────────┘     └────────┬─────────┘
-         │ (Weight: 0.35)         │ (Weight: 0.05)         │ (Weight: 0.15)
-         └────────────────────────┼────────────────────────┘
-                                  ▼
-    ┌─────────────────────────────┼─────────────────────────────┐
-    ▼                             ▼                             ▼
-┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│ XGBoost + SHAP   │     │ Circular Detector│     │ Node2Vec Embed   │
-│ Profile Mismatch │     │ Saradha Cycles   │     │ Mule Clustering  │
-└────────┬─────────┘     └────────┬─────────┘     └────────┬─────────┘
-         │ (Weight: 0.20)         │ (Weight: 0.25)         │
-         └────────────────────────┼────────────────────────┘
-                                  ▼
-              ┌───────────────────────────────────────┐
-              │ Central Multi-Tier Risk Aggregator    │
-              │ Composite Score (0-100) & Severity    │
-              │ (CRITICAL / HIGH / MEDIUM / LOW)      │
-              └───────────────────┬───────────────────┘
-                                  ▼
-              ┌───────────────────────────────────────┐
-              │ RESTful FastAPI Backend (/docs)       │
-              │ • Live Sub-Graph Snapshots            │
-              │ • Evidence Dossier & TreeSHAP Drivers │
-              │ • Demo Scenario Planner Replay        │
-              └───────────────────┬───────────────────┘
-                                  ▼
-              ┌───────────────────────────────────────┐
-              │ React + Vite Forensic Command Center  │
-              └───────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph INGEST["1. Ingestion & Streaming Layer"]
+        LOGS["📄 Employee Access Logs<br/><code>63,000+ records</code>"] --> TOPIC_A["📬 Topic: <code>access</code>"]
+        TXNS["📄 Transaction Stream<br/><code>7,000+ records</code>"] --> TOPIC_T["📬 Topic: <code>txns</code>"]
+        TOPIC_A --> BUS["⚡ Event Stream Consumer<br/><code>Kafka / In-Memory Queue</code>"]
+        TOPIC_T --> BUS
+    end
+
+    subgraph GRAPH_TIER["2. Temporal Graph Engine"]
+        BUS --> GRAPH["Incremental Temporal Graph (NetworkX)<br/>• Dynamic Decay: <i>w = exp(-λ·Δt)</i><br/>• 4-Minute Bi-Directional Cross-Check"]
+    end
+
+    subgraph ENGINES["3. Multi-Engine Analytics Tier"]
+        GRAPH --> M1["🌲 <b>Isolation Forest</b><br/>4-Min Link Window<br/><i>Weight: 0.35</i>"]
+        GRAPH --> M2["🎭 <b>5x Role Autoencoders</b><br/>Privilege & Scope Abuse<br/><i>Weight: 0.05</i>"]
+        GRAPH --> M3["📈 <b>LSTM + Attention</b><br/>Hawala Smurfing Bursts<br/><i>Weight: 0.15</i>"]
+        GRAPH --> M4["⚡ <b>XGBoost + TreeSHAP</b><br/>Account Profile Deviation<br/><i>Weight: 0.20</i>"]
+        GRAPH --> M5["🔄 <b>Cycle Detector & Node2Vec</b><br/>Laundering Rings & Cohesion<br/><i>Weight: 0.25</i>"]
+    end
+
+    subgraph AGGREGATOR["4. Multi-Tier Risk Aggregator"]
+        M1 --> AGG["⚖️ <b>Composite Risk Aggregator</b><br/>Score: 0–100% • Tiers: <code>CRITICAL</code> | <code>HIGH</code> | <code>MEDIUM</code>"]
+        M2 --> AGG
+        M3 --> AGG
+        M4 --> AGG
+        M5 --> AGG
+    end
+
+    subgraph DELIVERY["5. Intelligence Delivery & Investigation"]
+        AGG --> API["🚀 <b>FastAPI Backend Service</b><br/>• REST Endpoints (/docs)<br/>• Scenario Replay Controller<br/>• TreeSHAP Evidence Dossier"]
+        API --> UI["💻 <b>React + Vite Command Center</b><br/>• Live Graph Visualizer<br/>• Alert Queue & Audit Export"]
+    end
+
+    style INGEST fill:#1e293b,stroke:#334155,color:#fff
+    style GRAPH_TIER fill:#0f172a,stroke:#2563eb,stroke-width:2px,color:#fff
+    style ENGINES fill:#0f172a,stroke:#3b82f6,color:#fff
+    style AGGREGATOR fill:#1e1e38,stroke:#8b5cf6,stroke-width:2px,color:#fff
+    style DELIVERY fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
+
+    style M1 fill:#172554,stroke:#3b82f6,color:#fff
+    style M2 fill:#172554,stroke:#3b82f6,color:#fff
+    style M3 fill:#172554,stroke:#3b82f6,color:#fff
+    style M4 fill:#172554,stroke:#3b82f6,color:#fff
+    style M5 fill:#172554,stroke:#3b82f6,color:#fff
+    style AGG fill:#4c1d95,stroke:#8b5cf6,color:#fff
+    style API fill:#064e3b,stroke:#10b981,color:#fff
+    style UI fill:#065f46,stroke:#34d399,color:#fff
 ```
 
 ---
