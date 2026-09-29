@@ -1,30 +1,86 @@
-# TemporalShield 🛡️ (NexusTrace)
+<div align="center">
+
+# 🛡️ TemporalShield
 ### Multi-Tiered Financial Fraud Detection & Temporal Insider Threat Intelligence Platform
 
-[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg)](https://fastapi.tiangolo.com/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
-[![NetworkX](https://img.shields.io/badge/Graph-NetworkX-00599c.svg)](https://networkx.org/)
-[![XGBoost](https://img.shields.io/badge/XGBoost-GPU--Accelerated-green.svg)](https://xgboost.ai/)
-[![SHAP](https://img.shields.io/badge/Explainability-TreeSHAP-orange.svg)](https://shap.readthedocs.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+*Intercepting complex banking collusion, circular laundering rings, and hawala smurfing through sub-second temporal cross-correlation.*
 
-TemporalShield (NexusTrace) is an enterprise-grade AI/ML fraud intelligence platform engineered to detect sophisticated financial crimes that evade traditional static rule engines. It links internal bank employee access behaviors with outbound transactional fund flows, localized temporal burst anomalies, circular money laundering rings, and account profile deviations.
+<br/>
+
+[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18.0+-61DAFB.svg?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-Event_Stream-231F20.svg?style=flat-square&logo=apachekafka&logoColor=white)](https://kafka.apache.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![NetworkX](https://img.shields.io/badge/NetworkX-Temporal_Graph-00599C.svg?style=flat-square&logo=networkx&logoColor=white)](https://networkx.org/)
+[![XGBoost](https://img.shields.io/badge/XGBoost-TreeSHAP-228B22.svg?style=flat-square&logo=xgboost&logoColor=white)](https://xgboost.ai/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-F7DF1E.svg?style=flat-square)](LICENSE)
+
+<br/>
+
+[Executive Summary](#-executive-summary) • [Headline Feature](#-headline-capability-the-4-minute-detection-window) • [Detection Pillars](#-core-detection-pillars) • [System Architecture](#-system-architecture) • [Regulatory Benchmarks](#-indian-regulatory-benchmarks) • [Quick Start](#-quick-start-guide) • [API Reference](#-api-endpoints-reference)
+
+</div>
+
+---
+
+## 📌 Executive Summary
+
+Traditional Bank Fraud Management Systems (FMS) operate on isolated data silos: internal access telemetry (Active Directory, Core Banking terminal logs) is never correlated in real-time with outbound transactional clearing streams (RTGS, NEFT, IMPS).
+
+**TemporalShield** closes this vulnerability by running continuous, time-decayed graph cross-referencing between employee activity and fund transfers. It fuses **5 specialized machine learning engines** into a centralized risk aggregator to detect insider collusion, smurfing bursts, shell entity loops, and privilege misuse before settlement finality.
+
+<br/>
+
+<div align="center">
+
+| ⏱️ **4-Minute Window** | 🎯 **< 1.5% FPR** | 🧠 **5 Ensemble Engines** | 📜 **RBI & PMLA Grounded** |
+| :---: | :---: | :---: | :---: |
+| Instant temporal link between internal employee lookup & external fund transfer. | Supervised TreeSHAP baseline filters ensure routine transactions proceed uninterrupted. | Isolation Forest, 5x Role Autoencoders, LSTM+Attention, XGBoost, and Node2Vec. | Directly benchmarked against Citibank India, PNB, Saradha, and Hawala syndicates. |
+
+</div>
 
 ---
 
 ## ⚡ Headline Capability: The 4-Minute Detection Window
 
-In documented banking insider frauds (e.g., Citibank India 2010), rogue employees access high-net-worth or dormant customer accounts to harvest credentials or suppress fraud flags immediately prior to an external transfer.
+In documented banking insider frauds (e.g., *Citibank India 2010*), rogue relationship managers or branch operators inspect high-net-worth or dormant customer profiles to harvest account numbers, verify balances, or suppress security controls immediately prior to executing an unauthorized outbound transfer.
 
-TemporalShield's **Temporal Link Engine** monitors employee lookup events and subsequent customer transactions on the same account using unsupervised anomaly detection. When funds leave within **4 minutes** of internal employee lookup, TemporalShield calculates real-time collusion risk and triggers an automated hold before settlement.
+```mermaid
+flowchart LR
+    A["👤 <b>Employee Terminal</b><br/><code>EMP_042 (Branch 104)</code>"] -->|"<b>09:03 AM</b><br/>Lookup ACC_7731"| GAP{"⏱️ <b>4-Minute Gap</b><br/>Temporal Link Window"}
+    B["💸 <b>Outbound Clearing</b><br/><code>IMPS / RTGS Stream</code>"] -->|"<b>09:07 AM</b><br/>Transfer ₹4,90,000"| GAP
+    GAP -->|"Anomalous Score: 0.94"| HOLD["🚨 <b>AUTOMATED SETTLEMENT HOLD</b><br/>• Collusion Detection<br/>• TreeSHAP Attribution<br/>• PMLA Section 3 Escalation"]
+
+    style A fill:#1e293b,stroke:#334155,stroke-width:2px,color:#ffffff
+    style B fill:#065f46,stroke:#059669,stroke-width:2px,color:#ffffff
+    style GAP fill:#b45309,stroke:#d97706,stroke-width:2px,color:#ffffff
+    style HOLD fill:#991b1b,stroke:#dc2626,stroke-width:3px,color:#ffffff
+```
+
+TemporalShield monitors the joint temporal manifold of access events and transaction events. When money moves within **4 minutes** of employee account access:
+1. **Unsupervised Isolation Forest** computes the joint temporal-amount anomaly score.
+2. **Exponential Graph Decay** ($w = e^{-\lambda \cdot \Delta t}$) dynamically raises the collusion edge weight.
+3. An **Automated Settlement Hold** is triggered with full SHAP forensic attribution before funds clear.
 
 ---
 
-## 🧠 End-to-End System Architecture
+## 🛡️ Core Detection Pillars
+
+| Engine | Threat Class | Methodology | Case Benchmark |
+| :--- | :--- | :--- | :--- |
+| **Temporal Link Engine** | Insider Collusion | Unsupervised Isolation Forest over joint $\Delta t$, amount deviations, and branch role matches. | **Citibank India (2010)**<br/>₹400 Cr dormant account diversion |
+| **Circular Ring Detector** | Money Laundering Cycles | NetworkX cycle discovery combined with Node2Vec structural embeddings to flag synthetic volume rings. | **Saradha Syndicate (2013)**<br/>₹2,500 Cr layered shell transfers |
+| **Structuring Engine** | Hawala Smurfing | Bidirectional LSTM with Multi-Head Attention to detect sub-₹50,000 transaction bursts. | **Hawala Networks (Ongoing)**<br/>Smurfing below mandatory CTR limits |
+| **Role Profiler** | Scope & Privilege Abuse | PyTorch Autoencoders (x5) scoring employee action sequences against historical peer distributions. | **PNB SWIFT Scam (2018)**<br/>₹11,400 Cr off-hours LoU issuance |
+| **Account Profiler** | Dormant Hijacking | XGBoost Classifier + TreeSHAP explaining deviations against customer transaction baseline. | **Jan Dhan Laundering (2016)**<br/>Post-demonetization deposit bursts |
+
+---
+
+## 🧠 System Architecture
 
 ```
-                       Live Event Ingestion / Replay
+                       Live Event Ingestion / Replay Stream
            ┌───────────────────────────────────────────────────┐
            │ access_logs.csv (63k+)   synthetic_txns.csv (7k+) │
            └─────────┬─────────────────────────┬───────────────┘
@@ -35,7 +91,7 @@ TemporalShield's **Temporal Link Engine** monitors employee lookup events and su
                      └────────────┬────────────┘
                                   ▼
                     ┌───────────────────────────┐
-                    │ Stream Consumer Loop      │
+                    │ Streaming Consumer Loop   │
                     │ (Kafka / In-Memory Queue) │
                     └─────────────┬─────────────┘
                                   ▼
@@ -71,205 +127,110 @@ TemporalShield's **Temporal Link Engine** monitors employee lookup events and su
                                   ▼
               ┌───────────────────────────────────────┐
               │ RESTful FastAPI Backend (/docs)       │
-              │ • Live Graph Snapshots                │
-              │ • Investigation Dossier & SHAP        │
+              │ • Live Sub-Graph Snapshots            │
+              │ • Evidence Dossier & TreeSHAP Drivers │
               │ • Demo Scenario Planner Replay        │
+              └───────────────────┬───────────────────┘
+                                  ▼
+              ┌───────────────────────────────────────┐
+              │ React + Vite Forensic Command Center  │
               └───────────────────────────────────────┘
 ```
 
 ---
 
-## 🏛️ Real-World Indian Incident Grounding & Regulatory Framework
+## 🏛️ Indian Regulatory Benchmarks
 
-Every alert produced by TemporalShield is mapped to real-world Indian regulatory directives (RBI PMLA 2002, FIU-IND Red Flag Indicators) and documented banking fraud cases:
+Every alert generated by TemporalShield provides automated statutory alignment for compliance reporting:
 
-| Threat Pattern | Detection Engine | Historical Case Parallel | Regulatory Grounding |
-| :--- | :--- | :--- | :--- |
-| **Temporal Insider Collusion** | Isolation Forest (4-min window) | **Citibank India Wealth Scam (2010, ₹400 Cr)**: Relationship manager accessed dormant accounts right before fraudulent fund diversion. | PMLA 2002 Section 3; RBI Master Direction on Fraud Classification (RBI/2016-17/13). |
-| **Circular Transfer Rings** | Circular Detector + Node2Vec | **Saradha Syndicate Fraud (2013, ₹2,500 Cr)**: Rapid layered fund movement across shell accounts to fake commercial velocity. | FIU-IND Red Flag Indicator RFI-08 (Layered circular flows); SEBI CIS Regulations. |
-| **Hawala Structuring / Smurfing** | LSTM + Multi-Head Attention | **Hawala Smurfing Syndicates (Ongoing)**: Splitting sums into sub-₹50,000 bursts to bypass mandatory Cash Transaction Reports (CTR). | PMLA 2002 Rule 3(1)(A); Mandatory reporting on transfers $> \text{INR 50,000}$. |
-| **Privilege / Scope Abuse** | Deep Role Autoencoders (x5) | **Punjab National Bank (2018, ₹11,400 Cr)**: Off-hours terminal usage and LoU issuance with zero CBS journal entries. | Prevention of Corruption Act 1988, IPC 409; RBI Directive on SWIFT-CBS Integration. |
-| **Dormant Account Hijacking** | XGBoost + TreeSHAP | **Jan Dhan Post-Demonetization (2016)**: Low-volume accounts suddenly processing massive electronic transfers. | Benami Transactions Amendment Act 2016; Income Tax 'Operation Clean Money'. |
-
----
-
-## 📁 Repository Structure & Modules
-
-```
-TemporalShield/
-│
-├── api/                                  # API & Service Integration Layer
-│   ├── __init__.py                       # Package exports
-│   ├── main.py                           # FastAPI application exposing alerts, graph, and scenarios
-│   ├── schemas.py                        # Pydantic contract between backend and frontend
-│   └── evidence_builder.py               # SHAP Evidence Assembler wrapper
-│
-├── data/                                 # Ingestion, Replay & Offline Data Loaders
-│   ├── kafka_producer.py                 # Timestamp-ordered dual-topic stream publisher (Kafka/Memory)
-│   ├── kafka_consumer.py                 # Real-time event loop dispatching events to graph and ML
-│   ├── scenario_planner.py               # Demo scenario replay controller (Citibank, Hawala, Saradha)
-│   ├── event_bus.py                      # Thread-safe in-memory queues when Kafka is unavailable
-│   ├── paysim_loader.py                  # PaySim dataset loader for offline LSTM/XGBoost training
-│   ├── access_logs.csv                   # Synthetic bank employee access logs (63,000+ rows)
-│   ├── synthetic_transactions.csv        # Synthetic transactions (7,143 rows) sharing ACC_XXXXX IDs
-│   └── faker_access_logs.py              # Synthetic employee log generator with 5 roles & shifts
-│
-├── graph/                                # Incremental Graph Engine & Ring Detectors
-│   ├── __init__.py                       # Package exports
-│   ├── temporal_graph.py                 # Live NetworkX multigraph with exponential time decay
-│   ├── circular_detector.py              # Simple cycle detector combined with Node2Vec ring cohesion
-│   ├── node2vec_embed.py                 # Graph structural representation learning
-│   └── risk_aggregator.py                # 5-model weighted ensemble with CRITICAL/HIGH/MEDIUM tiers
-│
-├── models/                               # Machine Learning Inference Engines & Weights
-│   ├── __init__.py                       # Package exports
-│   ├── isolation_forest.py               # Temporal Insider Link Detector (4-min window)
-│   ├── autoencoder_role.py               # Role Permission Anomaly Detectors (5 roles)
-│   ├── lstm_structuring.py               # Transaction Structuring / Smurfing Detector
-│   ├── xgboost_profile.py                # Customer Profile Mismatch & Dormant Abuse Detector
-│   ├── shap_explainer.py                 # Central SHAP Evidence Dossier Assembler
-│   │
-│   ├── isolation_forest/                 # Serialized model, scaler, feature columns
-│   ├── autoencoder/                      # 5 role PyTorch autoencoders (.pt), scalers, thresholds
-│   ├── lstm/                             # PyTorch StructuringLSTM (.pt), scaler, thresholds
-│   ├── xgboost/                          # XGBoost model (.pkl), scaler, SHAP explainer
-│   └── ensemble/                         # Aggregator weights config
-│
-├── requirements.txt                      # Complete Python package dependencies
-└── README.md                             # Comprehensive documentation
-```
+| Alert Category | Severity | Statutory Grounding | Regulatory Provision |
+| :--- | :---: | :--- | :--- |
+| **Temporal Insider Collusion** | `CRITICAL` | **PMLA 2002, Section 3** | Offence of money laundering; RBI Master Direction on Fraud Classification (RBI/2016-17/13). |
+| **Circular Shell Laundering** | `CRITICAL` | **FIU-IND Red Flag RFI-08** | Layered round-tripping of funds through multiple accounts with no apparent commercial rationale. |
+| **Hawala Structuring** | `HIGH` | **PMLA 2002, Rule 3(1)(A)** | Mandatory filing of Cash Transaction Reports (CTR) for structured amounts under ₹50,000. |
+| **Privilege / Scope Abuse** | `HIGH` | **IPC 409 & PCA 1988** | Criminal breach of trust by public servant/banker; mandatory SWIFT-CBS reconciliation. |
+| **Dormant Account Hijacking** | `MEDIUM` | **Benami Transactions Act** | Sudden reactivation of low-volume accounts for high-value third-party disbursements. |
 
 ---
 
-## 🚀 How to Run the Project
+## 🧱 Core Modules
 
-### 1. Prerequisites & Installation
+| Module | Location | Primary Responsibilities |
+| :--- | :--- | :--- |
+| **API Layer** | [`api/`](api/) | FastAPI routing, Pydantic data schemas, and SHAP evidence dossier generation. |
+| **Streaming & Data** | [`data/`](data/) | Dual-topic event pipeline (Kafka with in-memory fallback), scenario replay, and PaySim loaders. |
+| **Temporal Graph** | [`graph/`](graph/) | NetworkX incremental graph with exponential time decay, cycle detectors, and risk aggregator. |
+| **Inference Models** | [`models/`](models/) | Model architectures and serialized weights for Isolation Forest, Autoencoders, LSTM, and XGBoost. |
+| **Forensic Console** | [`frontend/`](frontend/) | React + Vite dashboard, live graph explorer, alert inspector, and scenario replay UI. |
 
-Clone the repository and install dependencies:
+---
+
+## 🚀 Quick Start Guide
+
+### 1. Prerequisites & Setup
 
 ```bash
+# Clone the repository
 git clone https://github.com/Dnyanesh-29/TemporalShield.git
 cd TemporalShield
 
-# Create and activate virtual environment (optional but recommended)
+# Create and activate virtual environment
 python -m venv .venv
-source .venv/bin/activate       # On Linux/macOS
-.venv\Scripts\activate          # On Windows
+source .venv/bin/activate       # macOS / Linux
+.venv\Scripts\activate          # Windows
 
-# Install all required dependencies
+# Install Python requirements
 pip install -r requirements.txt
 ```
 
----
-
-### 2. Start the FastAPI Intelligence Backend
-
-Start the FastAPI application with Uvicorn:
+### 2. Launch the Backend API
 
 ```bash
 uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Once started:
-- **Interactive Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
-- **ReDoc Documentation**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
-- **Root Healthcheck**: [http://localhost:8000/](http://localhost:8000/)
+* **Interactive Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
+* **ReDoc Documentation**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+* **System Health Check**: [http://localhost:8000/](http://localhost:8000/)
 
-> **Note on Kafka:** Kafka is completely optional. If Apache Kafka is not running, the system automatically falls back to high-performance, thread-safe in-memory queues (`data/event_bus.py`). Everything works immediately with zero broker setup!
+> [!NOTE]
+> **Zero-Broker Streaming Fallback**: Apache Kafka is completely optional. If no Kafka broker is detected at startup, the system automatically falls back to thread-safe in-memory queues (`data/event_bus.py`). Everything runs immediately with zero external infrastructure!
+
+### 3. Launch the React Frontend (Optional)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser to access the live dashboard.
 
 ---
 
-### 3. Demo Scenarios & Interactive Execution
+## 🎬 Demonstration Scenarios
 
-TemporalShield comes with pre-configured demonstration scenarios that can be triggered on demand:
+TemporalShield includes one-click simulation scenarios replicating documented financial crimes:
 
-#### Available Scenarios:
-1. `temporal_link`: 4-minute insider lookup before transfer (Citibank Scam).
-2. `structuring`: Hawala smurfing burst below ₹50,000 threshold.
-3. `circular_transfer`: Multi-hop laundering loop ($A \to B \to C \to A$) across shell accounts (Saradha Scam).
-4. `clean_busy`: High-velocity benign commercial operations (validates $< 1.5\%$ false positive rate).
+| Scenario Key | Threat Pattern | Description |
+| :--- | :--- | :--- |
+| `temporal_link` | Insider Collusion | Rogue employee lookup followed 4 minutes later by a ₹4.9L outbound transfer. |
+| `structuring` | Hawala Smurfing | Rapid burst of sub-₹50,000 transfers hitting an account to evade CTR thresholds. |
+| `circular_transfer` | Laundering Loop | Multi-hop circular cycle ($A \to B \to C \to A$) through shell accounts. |
+| `clean_busy` | Normal Operations | High-velocity benign commercial transactions (validates false-positive rate $< 1.5\%$). |
 
 #### Trigger via cURL:
 ```bash
-# Trigger the 4-Minute Insider Link scenario
+# Replay 4-Minute Insider Link scenario
 curl -X POST "http://localhost:8000/scenario" \
      -H "Content-Type: application/json" \
      -d '{"scenario": "temporal_link", "speed_multiplier": 500.0}'
 
-# Trigger Circular Transfer Ring scenario
-curl -X POST "http://localhost:8000/scenario" \
-     -H "Content-Type: application/json" \
-     -d '{"scenario": "circular_transfer", "speed_multiplier": 500.0}'
-```
-
-#### Inspect Live Alerts & Graph:
-```bash
-# Get active alerts sorted by severity (CRITICAL first)
+# Fetch prioritized alerts
 curl -X GET "http://localhost:8000/alerts"
 
-# Retrieve full forensic evidence dossier for an alert
+# Retrieve full forensic evidence dossier
 curl -X GET "http://localhost:8000/alerts/ALT_INIT_10017/evidence"
-
-# Retrieve live graph snapshot for frontend rendering
-curl -X GET "http://localhost:8000/graph"
-
-# Reset all state and queues
-curl -X DELETE "http://localhost:8000/reset"
-```
-
----
-
-### 4. Run Detectors via Python API
-
-You can evaluate transactions directly inside Python scripts:
-
-```python
-from api import EvidenceBuilderService
-
-service = EvidenceBuilderService()
-
-dossier = service.evaluate_transaction_event(
-    account_id="ACC_10017",
-    transaction_event={
-        "transaction_id": "TXN_99182",
-        "amount": 48500.0,
-        "type": "TRANSFER",
-        "counterparty_id": "EXT_9999",
-        "timestamp": "2026-09-01 10:03:45"
-    },
-    recent_employee_access={
-        "employee_id": "EMP_0019",
-        "role": "loan_officer",
-        "account_id": "ACC_10017",
-        "account_type": "savings",
-        "timestamp": "2026-09-01 10:00:00"
-    }
-)
-
-print(f"Risk Score : {dossier['composite_risk_score']}% ({dossier['severity']})")
-print(f"Action     : {dossier['recommended_action']}")
-print(f"Incident   : {dossier['historical_incident_benchmark']['incident_name']}")
-```
-
----
-
-### 5. Offline PaySim Dataset Training (Optional)
-
-The PaySim dataset (6M+ transactions) is used strictly for offline model training (LSTM sequences and XGBoost baselines). PaySim is **not** streamed via Kafka because it uses distinct account IDs (`C12345...`) incompatible with branch access logs.
-
-To load and engineer features from PaySim:
-
-```python
-from data.paysim_loader import PaySimLoader
-
-loader = PaySimLoader()
-df_raw = loader.load_raw(nrows=50000)
-
-# Build LSTM sequences for smurfing detection
-X_lstm, y_lstm, lstm_features = loader.prepare_lstm_sequences(df_raw, sequence_length=20)
-
-# Build XGBoost baseline deviation features
-X_xgb, y_xgb, xgb_features = loader.prepare_xgboost_features(df_raw)
 ```
 
 ---
@@ -277,18 +238,18 @@ X_xgb, y_xgb, xgb_features = loader.prepare_xgboost_features(df_raw)
 ## 📡 API Endpoints Reference
 
 | Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/` | Root endpoint displaying system health and capabilities. |
-| `GET` | `/alerts` | List of active alerts sorted by severity (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`). |
+| :---: | :--- | :--- |
+| `GET` | `/` | System status, version, and active model healthcheck. |
+| `GET` | `/alerts` | Active alert queue sorted by risk score and severity (`CRITICAL`, `HIGH`, `MEDIUM`). |
 | `GET` | `/alerts/{id}` | Detailed alert breakdown with feature drivers and recommended actions. |
-| `GET` | `/alerts/{id}/evidence` | Full evidence dossier including TreeSHAP contributions, PMLA benchmark, and local sub-graph. |
-| `GET` | `/graph` | Current snapshot of the temporal graph (nodes, edges, weights, time decay). |
-| `GET` | `/scenarios` | Catalogue of all available demonstration scenarios and expected telemetry. |
-| `POST` | `/scenario` | Trigger on-demand streaming replay of a pre-filtered scenario subset. |
-| `GET` | `/stats` | Real-time system telemetry: alerts generated, false positive rate, patterns detected. |
-| `DELETE` | `/reset` | Flush event queues, reset graph nodes, and restore baseline demo state. |
+| `GET` | `/alerts/{id}/evidence` | Forensic evidence dossier: TreeSHAP contributions, PMLA benchmark, sub-graph. |
+| `GET` | `/graph` | Current temporal graph snapshot (nodes, edges, time-decay weights). |
+| `GET` | `/scenarios` | Catalogue of all pre-configured simulation scenarios. |
+| `POST` | `/scenario` | Trigger on-demand streaming replay of a scenario. |
+| `GET` | `/stats` | Live telemetry: processed events, false-positive rate, detected fraud topologies. |
+| `DELETE` | `/reset` | Flush event queues, reset graph nodes, and restore baseline state. |
 
 ---
 
 ## 📜 License
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE).
